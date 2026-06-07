@@ -16,6 +16,8 @@ import { countryLookup } from "../modules/countryLookup.js";
 import LoadingSpinner from "./shared/LoadingSpinner.jsx";
 import OverviewPanel from "./panels/OverviewPanel.jsx";
 import UsersPanel from "./panels/UsersPanel.jsx";
+import PostsPanel from "./panels/PostsPanel.jsx";
+import ProductivityPanel from "./panels/ProductivityPanel.jsx";
 
 const TABS = [
   { id: "overview", label: "Overview" },
@@ -187,9 +189,9 @@ export default function DevPulseDashboard() {
       case "users":
         return <UsersPanel data={dashData.users} />;
       case "posts":
-        return <PanelPlaceholder name="Posts" data={dashData.posts} />;
+        return <PostsPanel data={dashData.posts} />;
       case "productivity":
-        return <PanelPlaceholder name="Productivity" data={dashData.productivity} />;
+        return <ProductivityPanel data={dashData.productivity} />;
       case "trivia":
         return <PanelPlaceholder name="Trivia" data={dashData.trivia} />;
       case "countries":
