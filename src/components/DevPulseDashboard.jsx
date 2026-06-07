@@ -14,7 +14,8 @@ import { triviaScorer } from "../modules/triviaScorer.js";
 import { countryLookup } from "../modules/countryLookup.js";
 
 import LoadingSpinner from "./shared/LoadingSpinner.jsx";
-import ErrorCard from "./shared/ErrorCard.jsx";
+import OverviewPanel from "./panels/OverviewPanel.jsx";
+import UsersPanel from "./panels/UsersPanel.jsx";
 
 const TABS = [
   { id: "overview", label: "Overview" },
@@ -27,7 +28,20 @@ const TABS = [
 
 function PanelPlaceholder({ name, data }) {
   if (!data) {
-    return <ErrorCard message={`${name} data is unavailable due to a failed API request.`} />;
+    return (
+      <div
+        style={{
+          padding: "1.25rem",
+          background: "#ffffff",
+          borderRadius: "8px",
+          border: "1px solid #dde1e8",
+          color: "#5c6370",
+          fontSize: "0.875rem",
+        }}
+      >
+        <strong style={{ color: "#1a1d26" }}>{name}</strong> panel — data unavailable
+      </div>
+    );
   }
 
   return (
@@ -169,14 +183,9 @@ export default function DevPulseDashboard() {
   function renderActivePanel() {
     switch (activeTab) {
       case "overview":
-        return (
-          <PanelPlaceholder
-            name="Overview"
-            data={Object.keys(dashData).length > 0 ? dashData : null}
-          />
-        );
+        return <OverviewPanel data={dashData} />;
       case "users":
-        return <PanelPlaceholder name="Users" data={dashData.users} />;
+        return <UsersPanel data={dashData.users} />;
       case "posts":
         return <PanelPlaceholder name="Posts" data={dashData.posts} />;
       case "productivity":
