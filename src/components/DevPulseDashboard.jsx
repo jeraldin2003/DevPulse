@@ -19,13 +19,14 @@ import UsersPanel from "./panels/UsersPanel.jsx";
 import PostsPanel from "./panels/PostsPanel.jsx";
 import ProductivityPanel from "./panels/ProductivityPanel.jsx";
 import TriviaPanel from "./panels/TriviaPanel.jsx";
-
+import CountriesPanel from "./panels/CountriesPanel.jsx";
 const TABS = [
   { id: "overview", label: "Overview" },
   { id: "users", label: "Users" },
   { id: "posts", label: "Posts" },
   { id: "productivity", label: "Productivity" },
   { id: "trivia", label: "Trivia" },
+  { id: "countries", label: "Countries" },
 ];
 
 async function fetchDashboardData() {
@@ -160,6 +161,8 @@ export default function DevPulseDashboard() {
         return <ProductivityPanel data={dashData.productivity} />;
       case "trivia":
         return <TriviaPanel data={dashData.trivia} />;
+      case "countries":
+        return <CountriesPanel data={dashData.countries} />;
       default:
         return null;
     }
