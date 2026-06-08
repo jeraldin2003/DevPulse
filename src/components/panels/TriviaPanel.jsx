@@ -59,6 +59,7 @@ export default function TriviaPanel({ data }) {
   }));
 
   const easyCount = data.difficultyCounts.find((d) => d.difficulty === "easy")?.count ?? 0;
+  const mediumCount = data.difficultyCounts.find((d) => d.difficulty === "medium")?.count ?? 0;
   const hardCount = data.difficultyCounts.find((d) => d.difficulty === "hard")?.count ?? 0;
 
   return (
@@ -77,6 +78,12 @@ export default function TriviaPanel({ data }) {
           label="Easy Questions"
           value={easyCount}
           color="#70AD47"
+        />
+        <StatCard
+          icon={HelpCircle}
+          label="Medium Questions"
+          value={mediumCount}
+          color="#FFC000"
         />
         <StatCard
           icon={HelpCircle}
