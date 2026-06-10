@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { RefreshCw } from "lucide-react";
+import { RefreshCw, LogOut } from "lucide-react";
+import { useAuth } from "../context/AuthContext.jsx";
 
 import LoadingSpinner from "./shared/LoadingSpinner.jsx";
 import OverviewPanel from "./panels/OverviewPanel.jsx";
@@ -20,6 +21,7 @@ const TABS = [
 ];
 
 export default function DevPulseDashboard() {
+  const { user, logout } = useAuth();
   const [activeTab, setActiveTab] = useState("overview");
   const [dashData, setDashData] = useState({});
   const [loading, setLoading] = useState(true);
@@ -88,10 +90,27 @@ export default function DevPulseDashboard() {
     <div className="dashboard">
       <header className="dashboard-header">
         <h1>DevPulse Dashboard</h1>
-        <button type="button" className="btn" onClick={loadDashboardData}>
-          <RefreshCw size={16} />
-          Refresh
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          {user && (
+            <span style={{ fontSize: '0.875rem', color: 'var(--color-text-muted)', fontWeight: 500 }}>
+              {user.username}
+            </span>
+          )}
+          <button type="button" className="btn" onClick={loadDashboardData}>
+            <RefreshCw size={16} />
+            Refresh
+          </button>
+          <button
+            type="button"
+            className="btn"
+            onClick={logout}
+            style={{ background: '#ef4444' }}
+            title="Sign out"
+          >
+            <LogOut size={16} />
+            Logout
+          </button>
+        </div>
       </header>
 
       {hasErrors && (
