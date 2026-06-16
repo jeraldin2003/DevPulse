@@ -1,15 +1,6 @@
 export default function SectionTitle({ children }) {
   return (
-    <h2
-      style={{
-        fontSize: "1.125rem",
-        fontWeight: 600,
-        color: "#1a1d26",
-        paddingBottom: "0.5rem",
-        marginBottom: "1rem",
-        borderBottom: "2px solid #dde1e8",
-      }}
-    >
+    <h2 className="text-lg font-semibold text-slate-800 pb-2 mb-4 border-b border-slate-200">
       {children}
     </h2>
   );

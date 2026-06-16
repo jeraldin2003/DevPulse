@@ -2,24 +2,11 @@ import { AlertCircle } from "lucide-react";
 
 export default function ErrorCard({ message }) {
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "flex-start",
-        gap: "0.75rem",
-        padding: "1.25rem",
-        background: "#fdecea",
-        border: "1px solid #f5a8a0",
-        borderRadius: "8px",
-        color: "#b42318",
-      }}
-    >
-      <AlertCircle size={20} style={{ flexShrink: 0, marginTop: "2px" }} />
+    <div className="flex items-start gap-3 p-5 bg-rose-50 border border-rose-200 rounded-lg text-rose-800">
+      <AlertCircle size={20} className="shrink-0 mt-0.5" />
       <div>
-        <p style={{ fontWeight: 600, marginBottom: "0.25rem" }}>
-          Data unavailable
-        </p>
-        <p style={{ fontSize: "0.875rem" }}>{message}</p>
+        <p className="font-semibold mb-1">Data unavailable</p>
+        <p className="text-sm opacity-90">{message}</p>
       </div>
     </div>
   );

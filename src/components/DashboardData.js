@@ -12,7 +12,13 @@ import { countryLookup } from "../modules/countryLookup.js";
 
 export async function fetchOverviewData() {
   const start = Date.now();
-  const [usersRes, postsRes] = await Promise.allSettled([fetchUsers(), fetchPosts()]);
+  const [usersRes, postsRes, todosRes, triviaRes, countriesRes] = await Promise.allSettled([
+    fetchUsers(),
+    fetchPosts(),
+    fetchTodos(),
+    fetchTrivia(),
+    fetchCountries()
+  ]);
 
   const errors = {};
   const data = {};
@@ -22,6 +28,18 @@ export async function fetchOverviewData() {
 
   if (postsRes.status === "fulfilled") data.posts = postAnalysis(postsRes.value);
   else errors.posts = postsRes.reason?.message ?? "Unknown error";
+
+  if (usersRes.status === "fulfilled" && todosRes.status === "fulfilled") {
+    data.productivity = productivityTracker(usersRes.value, todosRes.value);
+  } else if (todosRes.status === "rejected") {
+    errors.productivity = todosRes.reason?.message ?? "Unknown error";
+  }
+
+  if (triviaRes.status === "fulfilled") data.trivia = triviaScorer(triviaRes.value);
+  else errors.trivia = triviaRes.reason?.message ?? "Unknown error";
+
+  if (countriesRes.status === "fulfilled") data.countries = countryLookup(countriesRes.value);
+  else errors.countries = countriesRes.reason?.message ?? "Unknown error";
 
   return { data, errors, loadTime: Date.now() - start };
 }

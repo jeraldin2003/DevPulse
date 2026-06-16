@@ -30,18 +30,10 @@ function ProductivityTooltip({ active, payload }) {
   const entry = payload[0].payload;
 
   return (
-    <div
-      style={{
-        padding: "0.5rem 0.75rem",
-        background: "#ffffff",
-        border: "1px solid #dde1e8",
-        borderRadius: "6px",
-        fontSize: "0.8125rem",
-      }}
-    >
-      <p style={{ fontWeight: 600, marginBottom: "0.25rem" }}>{entry.userName}</p>
-      <p>{entry.completionPercentage}% complete</p>
-      <p>
+    <div className="p-2 bg-white border border-slate-200 rounded-md text-xs shadow-sm">
+      <p className="font-semibold text-slate-800 mb-0.5">{entry.userName}</p>
+      <p className="text-slate-650">{entry.completionPercentage}% complete</p>
+      <p className="text-slate-500">
         {entry.completedTodos} / {entry.totalTodos} todos
       </p>
     </div>
@@ -61,17 +53,10 @@ export default function ProductivityPanel({ data }) {
     <div>
       <SectionTitle>Completion Rate by User</SectionTitle>
 
-      <div
-        style={{
-          padding: "1rem",
-          background: "#ffffff",
-          borderRadius: "8px",
-          border: "1px solid #dde1e8",
-        }}
-      >
+      <div className="p-4 bg-white border border-slate-200 rounded-lg shadow-sm">
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={chartData} layout="vertical" margin={{ left: 20 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#eef0f4" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
             <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 12 }} />
             <YAxis
               type="category"

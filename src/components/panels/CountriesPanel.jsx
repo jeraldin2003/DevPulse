@@ -22,17 +22,9 @@ function CountriesTooltip({ active, payload }) {
   const entry = payload[0].payload;
 
   return (
-    <div
-      style={{
-        padding: "0.5rem 0.75rem",
-        background: "#ffffff",
-        border: "1px solid #dde1e8",
-        borderRadius: "6px",
-        fontSize: "0.8125rem",
-      }}
-    >
-      <p style={{ fontWeight: 600, marginBottom: "0.25rem" }}>{entry.name}</p>
-      <p>{entry.population.toLocaleString()} people</p>
+    <div className="p-2 bg-white border border-slate-200 rounded-md text-xs shadow-sm">
+      <p className="font-semibold text-slate-800 mb-0.5">{entry.name}</p>
+      <p className="text-slate-650">{entry.population.toLocaleString()} people</p>
     </div>
   );
 }
@@ -55,7 +47,7 @@ export default function CountriesPanel({ data }) {
     <div>
       <SectionTitle>Country Statistics</SectionTitle>
 
-      <div className="panel-grid" style={{ maxWidth: "320px" }}>
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4 max-w-[320px]">
         <StatCard
           icon={Globe}
           label="Total Countries"
@@ -64,48 +56,24 @@ export default function CountriesPanel({ data }) {
         />
       </div>
 
-      <SectionTitle>Top 5 by Population</SectionTitle>
+      <div className="mt-6">
+        <SectionTitle>Top 5 by Population</SectionTitle>
 
-      <div
-        style={{
-          padding: "1rem",
-          background: "#ffffff",
-          borderRadius: "8px",
-          border: "1px solid #dde1e8",
-          marginBottom: "1.5rem",
-        }}
-      >
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#eef0f4" />
-            <XAxis dataKey="name" tick={{ fontSize: 11 }} interval={0} angle={-20} textAnchor="end" height={70} />
-            <YAxis tick={{ fontSize: 12 }} tickFormatter={(v) => `${(v / 1e6).toFixed(0)}M`} />
-            <Tooltip content={<CountriesTooltip />} />
-            <Bar dataKey="population" fill="#06b6d4" radius={[4, 4, 0, 0]} />
-          </BarChart>
-        </ResponsiveContainer>
+        <div className="p-4 bg-white border border-slate-200 rounded-lg shadow-sm mb-6">
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={chartData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+              <XAxis dataKey="name" tick={{ fontSize: 11 }} interval={0} angle={-20} textAnchor="end" height={70} />
+              <YAxis tick={{ fontSize: 12 }} tickFormatter={(v) => `${(v / 1e6).toFixed(0)}M`} />
+              <Tooltip content={<CountriesTooltip />} />
+              <Bar dataKey="population" fill="#06b6d4" radius={[4, 4, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: "1rem",
-          marginBottom: "1rem",
-          flexWrap: "wrap",
-        }}
-      >
-        <h2
-          style={{
-            fontSize: "1.125rem",
-            fontWeight: 600,
-            color: "#1a1d26",
-            paddingBottom: "0.5rem",
-            borderBottom: "2px solid #dde1e8",
-            flex: 1,
-          }}
-        >
+      <div className="flex items-center justify-between gap-4 mb-4 flex-wrap">
+        <h2 className="text-lg font-semibold text-slate-800 pb-2 border-b border-slate-200 flex-1">
           Countries ({filtered.length})
         </h2>
         <input
@@ -113,46 +81,25 @@ export default function CountriesPanel({ data }) {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search countries..."
-          style={{
-            padding: "0.5rem 0.75rem",
-            border: "1px solid #dde1e8",
-            borderRadius: "8px",
-            fontSize: "0.875rem",
-            minWidth: "200px",
-          }}
+          className="px-3 py-1.5 border border-slate-200 rounded-lg text-sm min-w-[200px] outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-white"
         />
       </div>
 
       {filtered.length === 0 ? (
-        <p
-          style={{
-            padding: "2rem",
-            textAlign: "center",
-            color: "#5c6370",
-            background: "#ffffff",
-            borderRadius: "8px",
-            border: "1px solid #dde1e8",
-          }}
-        >
+        <p className="p-8 text-center text-slate-500 bg-white rounded-lg border border-slate-200 shadow-sm">
           No countries match your search
         </p>
       ) : (
-        <div className="card-grid">
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-4">
           {filtered.map((country) => (
             <div
               key={country.name}
-              style={{
-                padding: "1rem",
-                background: "#ffffff",
-                borderRadius: "8px",
-                border: "1px solid #dde1e8",
-                boxShadow: "0 1px 3px rgba(0, 0, 0, 0.08)",
-              }}
+              className="p-4 bg-white border border-slate-200 rounded-lg shadow-sm"
             >
-              <p style={{ fontWeight: 600, marginBottom: "0.25rem", color: "#1a1d26" }}>
+              <p className="font-semibold text-slate-800 mb-0.5">
                 {country.name}
               </p>
-              <p style={{ fontSize: "0.875rem", color: "#5c6370" }}>
+              <p className="text-sm text-slate-500">
                 {country.population.toLocaleString()}
               </p>
             </div>

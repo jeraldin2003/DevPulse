@@ -75,7 +75,7 @@ export default function OverviewPanel({ data }) {
     <div>
       <SectionTitle>Summary</SectionTitle>
 
-      <div className="panel-grid">
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4 mb-6">
         {data.users && (
           <StatCard
             icon={Users}
@@ -122,30 +122,16 @@ export default function OverviewPanel({ data }) {
       {quickFacts.length > 0 && (
         <>
           <SectionTitle>Quick Facts</SectionTitle>
-          <div className="card-grid">
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-4">
             {quickFacts.map((fact) => (
               <div
                 key={fact.label}
-                style={{
-                  padding: "1rem",
-                  background: "#ffffff",
-                  borderRadius: "8px",
-                  border: "1px solid #dde1e8",
-                  boxShadow: "0 1px 3px rgba(0, 0, 0, 0.08)",
-                }}
+                className="p-4 bg-white rounded-lg border border-slate-250/60 shadow-sm"
               >
-                <p
-                  style={{
-                    fontSize: "0.75rem",
-                    color: "#5c6370",
-                    marginBottom: "0.375rem",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.04em",
-                  }}
-                >
+                <p className="text-xs text-slate-500 mb-1.5 uppercase tracking-wider">
                   {fact.label}
                 </p>
-                <p style={{ fontSize: "0.9375rem", fontWeight: 600, color: "#1a1d26" }}>
+                <p className="text-[15px] font-semibold text-slate-800">
                   {fact.value}
                 </p>
               </div>
