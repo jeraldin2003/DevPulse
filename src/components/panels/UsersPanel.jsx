@@ -18,7 +18,7 @@ export default function UsersPanel({ data }) {
     <div>
       <SectionTitle>User Statistics</SectionTitle>
 
-      <div className="panel-grid">
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4">
         <StatCard
           icon={Users}
           label="Total Users"
@@ -35,37 +35,15 @@ export default function UsersPanel({ data }) {
       </div>
 
       {/* Companies */}
-      <div
-        style={{
-          marginTop: "1.5rem",
-          background: "#fff",
-          border: "1px solid #e5e7eb",
-          borderRadius: "12px",
-          padding: "1.25rem",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: "1rem",
-          }}
-        >
-          <h3 style={{ margin: 0 }}>Companies</h3>
+      <div className="mt-6 bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-base font-semibold text-slate-800 m-0">Companies</h3>
           <Badge color="#8b5cf6">
             {uniqueCompanies.length} Companies
           </Badge>
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "0.6rem",
-          }}
-        >
+        <div className="flex flex-wrap gap-2">
           {uniqueCompanies.map(company => (
             <Badge key={company} color="#8b5cf6">
               {company}
@@ -75,20 +53,9 @@ export default function UsersPanel({ data }) {
       </div>
 
       {/* .biz Users */}
-      <div
-        style={{
-          marginTop: "1.5rem",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: "1rem",
-          }}
-        >
-          <h3 style={{ margin: 0 }}>.biz Users</h3>
+      <div className="mt-6">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-base font-semibold text-slate-800 m-0">.biz Users</h3>
 
           <Badge color="#3b82f6">
             {data.bizUsers.length} Found
@@ -96,61 +63,18 @@ export default function UsersPanel({ data }) {
         </div>
 
         {data.bizUsers.length === 0 ? (
-          <div
-            style={{
-              padding: "2rem",
-              textAlign: "center",
-              background: "#fff",
-              border: "1px solid #e5e7eb",
-              borderRadius: "12px",
-              color: "#6b7280",
-            }}
-          >
+          <div className="p-8 text-center bg-white border border-slate-200 rounded-xl text-slate-500">
             No .biz users found.
           </div>
         ) : (
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns:
-                "repeat(auto-fill, minmax(280px, 1fr))",
-              gap: "1rem",
-            }}
-          >
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-4">
             {data.bizUsers.map(user => (
               <div
                 key={user.id}
-                style={{
-                  background: "#fff",
-                  border: "1px solid #e5e7eb",
-                  borderRadius: "12px",
-                  padding: "1rem",
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
-                  transition: "all .2s ease",
-                }}
+                className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow duration-200"
               >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.75rem",
-                    marginBottom: "1rem",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: "48px",
-                      height: "48px",
-                      borderRadius: "50%",
-                      background: "#dbeafe",
-                      color: "#2563eb",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontWeight: "700",
-                      fontSize: "1rem",
-                    }}
-                  >
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-base border border-blue-100">
                     {user.name
                       .split(" ")
                       .map(word => word[0])
@@ -159,36 +83,17 @@ export default function UsersPanel({ data }) {
                   </div>
 
                   <div>
-                    <div
-                      style={{
-                        fontWeight: 600,
-                        color: "#111827",
-                      }}
-                    >
+                    <div className="font-semibold text-slate-900">
                       {user.name}
                     </div>
 
-                    <div
-                      style={{
-                        fontSize: "0.875rem",
-                        color: "#6b7280",
-                      }}
-                    >
+                    <div className="text-sm text-slate-500">
                       User #{user.id}
                     </div>
                   </div>
                 </div>
 
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.5rem",
-                    color: "#6b7280",
-                    fontSize: "0.9rem",
-                    marginBottom: "0.75rem",
-                  }}
-                >
+                <div className="flex items-center gap-2 text-slate-550 text-sm mb-3">
                   <Mail size={16} />
                   {user.email}
                 </div>

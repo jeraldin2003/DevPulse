@@ -33,17 +33,9 @@ function TriviaTooltip({ active, payload }) {
   const entry = payload[0];
 
   return (
-    <div
-      style={{
-        padding: "0.5rem 0.75rem",
-        background: "#ffffff",
-        border: "1px solid #dde1e8",
-        borderRadius: "6px",
-        fontSize: "0.8125rem",
-      }}
-    >
-      <p style={{ fontWeight: 600, textTransform: "capitalize" }}>{entry.name}</p>
-      <p>{entry.value} questions</p>
+    <div className="p-2 bg-white border border-slate-205/60 rounded-md text-xs shadow-sm">
+      <p className="font-semibold capitalize text-slate-800">{entry.name}</p>
+      <p className="text-slate-500">{entry.value} questions</p>
     </div>
   );
 }
@@ -66,7 +58,7 @@ export default function TriviaPanel({ data }) {
     <div>
       <SectionTitle>Trivia Overview</SectionTitle>
 
-      <div className="panel-grid">
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4 mb-6">
         <StatCard
           icon={Brain}
           label="Total Questions"
@@ -95,15 +87,7 @@ export default function TriviaPanel({ data }) {
 
       <SectionTitle>Difficulty Breakdown</SectionTitle>
 
-      <div
-        style={{
-          padding: "1rem",
-          background: "#ffffff",
-          borderRadius: "8px",
-          border: "1px solid #dde1e8",
-          marginBottom: "1.5rem",
-        }}
-      >
+      <div className="p-4 bg-white border border-slate-200 rounded-lg shadow-sm mb-6">
         <ResponsiveContainer width="100%" height={300}>
           <PieChart>
             <Pie
@@ -131,24 +115,19 @@ export default function TriviaPanel({ data }) {
 
       <SectionTitle>Question Results</SectionTitle>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+      <div className="flex flex-col gap-3">
         {data.questions.map((item) => (
           <div
             key={`${item.category}-${item.question.slice(0, 40)}`}
-            style={{
-              padding: "1rem",
-              background: "#ffffff",
-              borderRadius: "8px",
-              border: "1px solid #dde1e8",
-            }}
+            className="p-4 bg-white border border-slate-200 rounded-lg shadow-sm"
           >
-            <p style={{ fontSize: "0.9375rem", marginBottom: "0.5rem", color: "#1a1d26" }}>
+            <p className="text-[15px] text-slate-800 mb-2 font-medium">
               {decodeHtml(item.question)}
             </p>
-            <p style={{ fontSize: "0.8125rem", color: "#5c6370", marginBottom: "0.5rem" }}>
+            <p className="text-xs text-slate-500 mb-2">
               Answer: {decodeHtml(item.answer)}
             </p>
-            <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+            <div className="flex gap-2 flex-wrap">
               <Badge color={DIFFICULTY_COLORS[item.difficulty] ?? "#8b5cf6"}>
                 {item.difficulty}
               </Badge>

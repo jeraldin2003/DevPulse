@@ -21,17 +21,9 @@ function PostsTooltip({ active, payload }) {
   const entry = payload[0].payload;
 
   return (
-    <div
-      style={{
-        padding: "0.5rem 0.75rem",
-        background: "#ffffff",
-        border: "1px solid #dde1e8",
-        borderRadius: "6px",
-        fontSize: "0.8125rem",
-      }}
-    >
-      <p style={{ fontWeight: 600, marginBottom: "0.25rem" }}>User {entry.userId}</p>
-      <p>{entry.postCount} posts</p>
+    <div className="p-2 bg-white border border-slate-200 rounded-md text-xs shadow-sm">
+      <p className="font-semibold text-slate-800 mb-0.5">User {entry.userId}</p>
+      <p className="text-slate-600">{entry.postCount} posts</p>
     </div>
   );
 }
@@ -47,7 +39,7 @@ export default function PostsPanel({ data }) {
     <div>
       <SectionTitle>Post Statistics</SectionTitle>
 
-      <div className="panel-grid" style={{ maxWidth: "320px" }}>
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4 max-w-[320px]">
         <StatCard
           icon={FileText}
           label="Total Posts"
@@ -56,29 +48,24 @@ export default function PostsPanel({ data }) {
         />
       </div>
 
-      <SectionTitle>Posts per User Leaderboard</SectionTitle>
+      <div className="mt-6">
+        <SectionTitle>Posts per User Leaderboard</SectionTitle>
 
-      <div
-        style={{
-          padding: "1rem",
-          background: "#ffffff",
-          borderRadius: "8px",
-          border: "1px solid #dde1e8",
-        }}
-      >
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#eef0f4" />
-            <XAxis
-              dataKey="userId"
-              tickFormatter={(userId) => `User ${userId}`}
-              tick={{ fontSize: 12 }}
-            />
-            <YAxis tick={{ fontSize: 12 }} allowDecimals={false} />
-            <Tooltip content={<PostsTooltip />} />
-            <Bar dataKey="postCount" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
-          </BarChart>
-        </ResponsiveContainer>
+        <div className="p-4 bg-white border border-slate-200 rounded-lg shadow-sm">
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={chartData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+              <XAxis
+                dataKey="userId"
+                tickFormatter={(userId) => `User ${userId}`}
+                tick={{ fontSize: 12 }}
+              />
+              <YAxis tick={{ fontSize: 12 }} allowDecimals={false} />
+              <Tooltip content={<PostsTooltip />} />
+              <Bar dataKey="postCount" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </div>
   );

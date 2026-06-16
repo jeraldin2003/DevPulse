@@ -1,39 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import axios from 'axios';
 
 export default function Login({setIsAuthenticated}) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [authNow, setAuthNow] = useState("");
-  
-
     const setHandleSubmit = async (e)=>{
       e.preventDefault();
-      
-      const response = await fetch("http://localhost:3000/users/login");
-      const data = await response.json();
-      if(username === data.username && password === data.password){
-        setIsAuthenticated("dashboard")
-      }else{
-        alert("Wrong user pass")
+      try{
+        const response = await axios.post("http://localhost:3000/api/auth/login",
+          {
+            username: username,
+            password: password
+          }
+        );
+        console.log(response)
+        if(response.status === 200){
+          setIsAuthenticated("dashboard")
+        }else{
+          alert("Wrong user pass")
+        }
       }
-      
+      catch(error){
+        if (error.status == 401){
+          alert("Wrong Username Or Password")
+        }
+      }
     }
 
-    // useEffect(()=>{
-    //     async function users(){
-          
-    //       return fetcher
-    //     }
-    //     users();
-    // }, [authNow])
   return (
-    <div style={styles.container}>
-      <form style={styles.form} onSubmit={setHandleSubmit}>
-        <h2>Login</h2>
+    <div className="min-h-screen flex items-center justify-center bg-slate-50">
+      <form className="bg-white p-8 rounded-xl shadow-sm border border-slate-200/60 w-[340px] flex flex-col gap-4" onSubmit={setHandleSubmit}>
+        <h2 className="text-xl font-bold text-slate-800 text-center mb-2">Login</h2>
         <input
-          type="username"
+          type="text"
           placeholder="Username"
-          style={styles.input}
+          className="px-3.5 py-2 border border-slate-200 rounded-lg text-sm bg-white outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-slate-700 placeholder:text-slate-400"
           onChange={(e)=> setUsername(e.target.value)}
           required
         />
@@ -41,48 +42,15 @@ export default function Login({setIsAuthenticated}) {
         <input
           type="password"
           placeholder="Password"
-          style={styles.input}
+          className="px-3.5 py-2 border border-slate-200 rounded-lg text-sm bg-white outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-slate-700 placeholder:text-slate-400"
           onChange = { (e)=> setPassword(e.target.value)}
           required
         />
 
-        <button type="submit" style={styles.button}>
+        <button type="submit" className="py-2.5 px-4 bg-blue-650 hover:bg-blue-700 text-white font-medium rounded-lg text-sm transition-colors duration-200 shadow-sm">
           Login
         </button>
       </form>
     </div>
   );
 }
-
-const styles = {
-  container: {
-    height: "100vh",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#f4f4f4",
-  },
-  form: {
-    backgroundColor: "#fff",
-    padding: "2rem",
-    borderRadius: "8px",
-    boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-    width: "300px",
-    display: "flex",
-    flexDirection: "column",
-    gap: "1rem",
-  },
-  input: {
-    padding: "10px",
-    border: "1px solid #ddd",
-    borderRadius: "4px",
-  },
-  button: {
-    padding: "10px",
-    border: "none",
-    borderRadius: "4px",
-    backgroundColor: "#2563eb",
-    color: "#fff",
-    cursor: "pointer",
-  },
-};
