@@ -1,12 +1,22 @@
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext.jsx';
-import DevPulseDashboard from "./components/DevPulseDashboard.jsx";
-import LoginPage from "./components/LoginPage.jsx";
-import Login from './components/LoginPageTest.jsx';
-import Dashboard from './components/DevPulseDashboardTest.jsx'
-import {useState} from 'react'
+import DashboardPage from './pages/dashboard/DashboardPage.jsx';
+import QuizPage from './pages/quiz/QuizPage.jsx';
+import LoginPage from './pages/login/LoginPage.jsx';
+import SidebarLayout from './components/shared/SidebarLayout.jsx';
+
+function ProtectedRoute({ children }) {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? children : <Navigate to="/login" replace />;
+}
+
+function PublicRoute({ children }) {
+  const { isAuthenticated } = useAuth();
+  return !isAuthenticated ? children : <Navigate to="/" replace />;
+}
 
 export default function App() {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isLoading } = useAuth();
 
   if (isLoading) {
     return (
@@ -17,17 +27,32 @@ export default function App() {
     );
   }
 
-  return isAuthenticated ? <DevPulseDashboard /> : <LoginPage />;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/login"
+          element={
+            <PublicRoute>
+              <LoginPage />
+            </PublicRoute>
+          }
+        />
+        <Route
+          element={
+            <ProtectedRoute>
+              <SidebarLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/" element={<DashboardPage />} />
+          <Route path="/quiz" element={<QuizPage />} />
+        </Route>
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 
-// export default function App(){
-//   const [isAuthenticated, setIsAuthenticated] = useState("login");
-//   return(
-//     <>
-//       {isAuthenticated === "login" && (<Login setIsAuthenticated = {setIsAuthenticated}/>)}
-//       {isAuthenticated === "dashboard" && (<Dashboard setIsAuthenticated = {setIsAuthenticated}/>)}
-//     </>
-//   )
-// }
 

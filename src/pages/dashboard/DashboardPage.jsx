@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
-import { RefreshCw, LogOut } from "lucide-react";
-import { useAuth } from "../context/AuthContext.jsx";
+import { RefreshCw } from "lucide-react";
 
-import LoadingSpinner from "./shared/LoadingSpinner.jsx";
-import OverviewPanel from "./panels/OverviewPanel.jsx";
-import UsersPanel from "./panels/UsersPanel.jsx";
-import PostsPanel from "./panels/PostsPanel.jsx";
-import ProductivityPanel from "./panels/ProductivityPanel.jsx";
-import TriviaPanel from "./panels/TriviaPanel.jsx";
-import CountriesPanel from "./panels/CountriesPanel.jsx";
-import QuizPanel from "./panels/QuizPanel.jsx"
+import LoadingSpinner from "../../components/shared/LoadingSpinner.jsx";
+import OverviewPanel from "../../components/panels/OverviewPanel.jsx";
+import UsersPanel from "../../components/panels/UsersPanel.jsx";
+import PostsPanel from "../../components/panels/PostsPanel.jsx";
+import ProductivityPanel from "../../components/panels/ProductivityPanel.jsx";
+import TriviaPanel from "../../components/panels/TriviaPanel.jsx";
+import CountriesPanel from "../../components/panels/CountriesPanel.jsx";
 
 import {
   fetchOverviewData,
@@ -18,7 +16,7 @@ import {
   fetchProductivityData,
   fetchTriviaData,
   fetchCountriesData,
-} from "./DashboardData.js";
+} from "../../components/DashboardData.js";
 
 const TABS = [
   { id: "overview", label: "Overview" },
@@ -27,7 +25,6 @@ const TABS = [
   { id: "productivity", label: "Productivity" },
   { id: "trivia", label: "Trivia" },
   { id: "countries", label: "Countries" },
-  { id: "quiz", label: "Quiz" },
 ];
 
 const TAB_FETCHERS = {
@@ -39,8 +36,7 @@ const TAB_FETCHERS = {
   countries: fetchCountriesData,
 };
 
-export default function DevPulseDashboard() {
-  const { user, logout } = useAuth();
+export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState("overview");
   const [tabData, setTabData] = useState({ loading: true, data: null, errors: {}, loadTime: 0 });
 
@@ -85,41 +81,24 @@ export default function DevPulseDashboard() {
       case "productivity": return <ProductivityPanel data={tabData.data} />;
       case "trivia": return <TriviaPanel data={tabData.data} />;
       case "countries": return <CountriesPanel data={tabData.data} />;
-      case "quiz": return <QuizPanel data={tabData.data} />;
       default: return null;
     }
   }
 
   return (
-    <div className="flex flex-col min-h-screen max-w-6xl mx-auto px-6 pb-12">
-      <header className="flex justify-between items-center py-6 border-b border-slate-200 mb-6">
-        <h1 className="text-2xl font-bold text-slate-800 tracking-tight">DevPulse Dashboard</h1>
-        <div className="flex items-center gap-3">
-          {user && (
-            <span className="text-sm text-slate-500 font-medium">
-              {user.username}
-            </span>
-          )}
-          <button
-            type="button"
-            className="inline-flex items-center gap-1.5 px-4 py-1.5 border border-slate-200 rounded-lg bg-white hover:bg-slate-50 text-slate-600 font-medium text-sm transition-colors duration-150 cursor-pointer disabled:opacity-50"
-            onClick={handleRefresh}
-            disabled={tabData.loading}
-          >
-            <RefreshCw size={16} />
-            Refresh
-          </button>
-          <button
-            type="button"
-            className="inline-flex items-center gap-1.5 px-4 py-1.5 border border-rose-200 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 font-medium text-sm transition-colors duration-150 cursor-pointer"
-            onClick={logout}
-            title="Sign out"
-          >
-            <LogOut size={16} />
-            Logout
-          </button>
-        </div>
-      </header>
+    <div className="flex flex-col min-h-screen pb-12">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-slate-800 tracking-tight">Dashboard Overview</h1>
+        <button
+          type="button"
+          className="inline-flex items-center gap-1.5 px-4 py-1.5 border border-slate-200 rounded-lg bg-white hover:bg-slate-50 text-slate-600 font-medium text-sm transition-colors duration-150 cursor-pointer disabled:opacity-50"
+          onClick={handleRefresh}
+          disabled={tabData.loading}
+        >
+          <RefreshCw size={16} />
+          Refresh
+        </button>
+      </div>
 
       {hasErrors && (
         <div className="flex flex-col gap-1.5 p-4 mb-6 bg-rose-50 border border-rose-200 rounded-xl text-rose-800 text-sm" role="alert">

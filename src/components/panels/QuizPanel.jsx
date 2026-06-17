@@ -1,6 +1,8 @@
 import { useState } from "react";
-
+import { useAuth } from "../../context/AuthContext.jsx";
+import { saveQuizScore } from "../../api/quiz.js";
 export default function QuizPanel() {
+    const { accessToken, user } = useAuth();
     const [quizState, setQuizState] = useState("selection"); // selection, playing, finished
     const [difficulty, setDifficulty] = useState("");
     const [questions, setQuestions] = useState([]);
@@ -26,7 +28,7 @@ export default function QuizPanel() {
             const response = await fetch(url);
             if (!response.ok) throw new Error("Failed to fetch questions");
             const data = await response.json();
-            
+
             if (data.results && data.results.length > 0) {
                 // Shuffle answers for each question
                 const formattedQuestions = data.results.map((q) => {
@@ -48,15 +50,22 @@ export default function QuizPanel() {
         }
     };
 
-    const handleAnswerClick = (selectedOption, correctAnswer) => {
+    const handleAnswerClick = async (selectedOption, correctAnswer) => {
+        let finalScore = score;
         if (selectedOption === correctAnswer) {
-            setScore(score + 1);
+            finalScore = score + 1;
+            setScore(finalScore);
         }
-        
+
         if (currentQuestionIndex + 1 < questions.length) {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
         } else {
             setQuizState("finished");
+            try {
+                await saveQuizScore(finalScore, accessToken, user);
+            } catch (err) {
+                console.error("Failed to save score:", err);
+            }
         }
     };
 
@@ -124,15 +133,14 @@ export default function QuizPanel() {
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800 capitalize">
                         {currentQuestion.category}
                     </span>
-                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize ${
-                        currentQuestion.difficulty === 'easy' ? 'bg-green-100 text-green-800' :
+                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize ${currentQuestion.difficulty === 'easy' ? 'bg-green-100 text-green-800' :
                         currentQuestion.difficulty === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-red-100 text-red-800'
-                    }`}>
+                            'bg-red-100 text-red-800'
+                        }`}>
                         {currentQuestion.difficulty}
                     </span>
                 </div>
-                <h3 
+                <h3
                     className="text-xl font-medium text-slate-800 mb-6"
                     dangerouslySetInnerHTML={{ __html: currentQuestion.question }}
                 />

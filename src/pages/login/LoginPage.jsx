@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { useAuth } from '../context/AuthContext.jsx';
+import { useAuth } from '../../context/AuthContext.jsx';
 import { User, Lock, Eye, EyeOff, AlertCircle, CheckCircle, Activity } from 'lucide-react';
 
 function getPasswordStrength(pw) {
