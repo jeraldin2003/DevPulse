@@ -2,22 +2,19 @@ import { fetchUsers } from "../api/fetchUsers.js";
 import { fetchPosts } from "../api/fetchPosts.js";
 import { fetchTodos } from "../api/fetchTodos.js";
 import { fetchTrivia } from "../api/fetchTrivia.js";
-import { fetchCountries } from "../api/fetchCountries.js";
 
 import { userStats } from "../modules/userStats.js";
 import { postAnalysis } from "../modules/postAnalysis.js";
 import { productivityTracker } from "../modules/productivityTracker.js";
 import { triviaScorer } from "../modules/triviaScorer.js";
-import { countryLookup } from "../modules/countryLookup.js";
 
 export async function fetchOverviewData() {
   const start = Date.now();
-  const [usersRes, postsRes, todosRes, triviaRes, countriesRes] = await Promise.allSettled([
+  const [usersRes, postsRes, todosRes, triviaRes] = await Promise.allSettled([
     fetchUsers(),
     fetchPosts(),
     fetchTodos(),
     fetchTrivia(),
-    fetchCountries()
   ]);
 
   const errors = {};
@@ -37,9 +34,6 @@ export async function fetchOverviewData() {
 
   if (triviaRes.status === "fulfilled") data.trivia = triviaScorer(triviaRes.value);
   else errors.trivia = triviaRes.reason?.message ?? "Unknown error";
-
-  if (countriesRes.status === "fulfilled") data.countries = countryLookup(countriesRes.value);
-  else errors.countries = countriesRes.reason?.message ?? "Unknown error";
 
   return { data, errors, loadTime: Date.now() - start };
 }

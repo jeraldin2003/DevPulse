@@ -24,7 +24,6 @@ const TABS = [
   { id: "posts", label: "Posts" },
   { id: "productivity", label: "Productivity" },
   { id: "trivia", label: "Trivia" },
-  { id: "countries", label: "Countries" },
 ];
 
 const TAB_FETCHERS = {
@@ -33,7 +32,6 @@ const TAB_FETCHERS = {
   posts: fetchPostsData,
   productivity: fetchProductivityData,
   trivia: fetchTriviaData,
-  countries: fetchCountriesData,
 };
 
 export default function DashboardPage() {
@@ -80,7 +78,6 @@ export default function DashboardPage() {
       case "posts": return <PostsPanel data={tabData.data} />;
       case "productivity": return <ProductivityPanel data={tabData.data} />;
       case "trivia": return <TriviaPanel data={tabData.data} />;
-      case "countries": return <CountriesPanel data={tabData.data} />;
       default: return null;
     }
   }
