@@ -15,8 +15,7 @@ import {
   fetchPostsData,
   fetchProductivityData,
   fetchTriviaData,
-  fetchCountriesData,
-} from "../../components/DashboardData.js";
+} from "./DashboardData.js"
 
 const TABS = [
   { id: "overview", label: "Overview" },
