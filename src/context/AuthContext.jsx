@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { apiLogin, apiRegister, apiSendOtp, apiLogout, apiRefreshToken } from '../api/auth.js';
+import { apiLogin, apiLoginByEmail, apiRegister, apiSendOtp, apiLogout, apiRefreshToken, apiForgotPassword, apiResetPassword } from '../api/auth.js';
 
 const AuthContext = createContext(null);
 
@@ -58,6 +58,14 @@ export function AuthProvider({ children }) {
     return result;
   }, [persistSession]);
 
+  const loginByEmail = useCallback(async (email, password) => {
+    const result = await apiLoginByEmail(email, password);
+    if (result.success) {
+      persistSession(result.data.accessToken, result.data.refreshToken, result.data.user);
+    }
+    return result;
+  }, [persistSession]);
+
   const sendOtp = useCallback(async (email) => {
     const result = await apiSendOtp(email);
     return result;
@@ -66,6 +74,14 @@ export function AuthProvider({ children }) {
   const register = useCallback(async (username, password, email, otp) => {
     const result = await apiRegister(username, password, email, otp);
     return result;
+  }, []);
+
+  const forgotPassword = useCallback(async (email) => {
+    return apiForgotPassword(email);
+  }, []);
+
+  const resetPassword = useCallback(async (email, otp, newPassword) => {
+    return apiResetPassword(email, otp, newPassword);
   }, []);
 
   const logout = useCallback(async () => {
@@ -105,8 +121,11 @@ export function AuthProvider({ children }) {
     isAuthenticated: !!accessToken && !!user,
     isLoading,
     login,
+    loginByEmail,
     sendOtp,
     register,
+    forgotPassword,
+    resetPassword,
     logout,
     refresh,
   };
