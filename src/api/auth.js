@@ -1,7 +1,6 @@
 const apiUrl = import.meta.env.VITE_API_URL;
 const API_BASE = apiUrl || '/api';
 
-
 export async function apiLogin(username, password) {
   const res = await fetch(`${API_BASE}/auth/login`, {
     method: 'POST',
@@ -11,11 +10,20 @@ export async function apiLogin(username, password) {
   return res.json();
 }
 
-export async function apiRegister(username, password) {
+export async function apiSendOtp(email) {
+  const res = await fetch(`${API_BASE}/auth/send-otp`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  });
+  return res.json();
+}
+
+export async function apiRegister(username, password, email, otp) {
   const res = await fetch(`${API_BASE}/auth/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, password }),
+    body: JSON.stringify({ username, password, email, otp }),
   });
   return res.json();
 }

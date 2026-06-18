@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { apiLogin, apiRegister, apiLogout, apiRefreshToken } from '../api/auth.js';
+import { apiLogin, apiRegister, apiSendOtp, apiLogout, apiRefreshToken } from '../api/auth.js';
 
 const AuthContext = createContext(null);
 
@@ -58,8 +58,13 @@ export function AuthProvider({ children }) {
     return result;
   }, [persistSession]);
 
-  const register = useCallback(async (username, password) => {
-    const result = await apiRegister(username, password);
+  const sendOtp = useCallback(async (email) => {
+    const result = await apiSendOtp(email);
+    return result;
+  }, []);
+
+  const register = useCallback(async (username, password, email, otp) => {
+    const result = await apiRegister(username, password, email, otp);
     return result;
   }, []);
 
@@ -100,6 +105,7 @@ export function AuthProvider({ children }) {
     isAuthenticated: !!accessToken && !!user,
     isLoading,
     login,
+    sendOtp,
     register,
     logout,
     refresh,

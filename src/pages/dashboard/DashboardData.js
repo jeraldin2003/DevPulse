@@ -1,12 +1,12 @@
-import { fetchUsers } from "../api/fetchUsers.js";
-import { fetchPosts } from "../api/fetchPosts.js";
-import { fetchTodos } from "../api/fetchTodos.js";
-import { fetchTrivia } from "../api/fetchTrivia.js";
+import { fetchUsers } from "../../api/fetchUsers.js";
+import { fetchPosts } from "../../api/fetchPosts.js";
+import { fetchTodos } from "../../api/fetchTodos.js";
+import { fetchTrivia } from "../../api/fetchTrivia.js";
 
-import { userStats } from "../modules/userStats.js";
-import { postAnalysis } from "../modules/postAnalysis.js";
-import { productivityTracker } from "../modules/productivityTracker.js";
-import { triviaScorer } from "../modules/triviaScorer.js";
+import { userStats } from "../../modules/userStats.js";
+import { postAnalysis } from "../../modules/postAnalysis.js";
+import { productivityTracker } from "../../modules/productivityTracker.js";
+import { triviaScorer } from "../../modules/triviaScorer.js";
 
 export async function fetchOverviewData() {
   const start = Date.now();
