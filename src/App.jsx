@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { useAuth } from './context/AuthContext.jsx';
-import DashboardPage from './pages/dashboard/DashboardPage.jsx';
-import QuizPage from './pages/quiz/QuizPage.jsx';
-import LoginPage from './pages/login/LoginPage.jsx';
-import SidebarLayout from './components/shared/SidebarLayout.jsx';
+import { useAuth } from '~/features/auth/context/AuthContext.jsx';
+import { LoginPage } from '~/features/auth/pages/LoginPage.jsx';
+import DashboardPage from '~/features/dashboard/pages/DashboardPage.jsx';
+import QuizPage from '~/features/quiz/pages/QuizPage.jsx';
+import SidebarLayout from '~/components/layout/SidebarLayout.jsx';
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated } = useAuth();
@@ -53,6 +53,3 @@ export default function App() {
     </BrowserRouter>
   );
 }
-
-
-
