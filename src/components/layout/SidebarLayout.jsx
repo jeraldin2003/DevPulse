@@ -8,8 +8,9 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
-import { LayoutDashboard, HelpCircle, LogOut, Activity, Menu, X } from 'lucide-react';
+import { LayoutDashboard, HelpCircle, LogOut, Activity, Menu, X, Sun, Moon } from 'lucide-react';
 import { useAuth } from '~/features/auth/context/AuthContext.jsx';
+import { useTheme } from '~/features/auth/context/ThemeContext.jsx';
 
 const NAV_LINKS = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard, exact: true },
@@ -29,100 +30,113 @@ function getInitials(name = '') {
 function SidebarContent({ user, logout, onClose }) {
   const initials = getInitials(user?.username ?? user?.email ?? '?');
 
-  return (
-    <div className="flex flex-col h-full">
-      {/* Brand */}
-      <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 shrink-0">
-        <div className="flex items-center gap-2.5">
-          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-600 text-white shadow-sm shadow-blue-500/25">
-            <Activity size={17} strokeWidth={2.5} aria-hidden="true" />
+    const { theme, toggleTheme } = useTheme();
+
+    return (
+      <div className="flex flex-col h-full">
+        {/* Brand */}
+        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 shrink-0">
+          <div className="flex items-center gap-2.5">
+            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-600 text-white shadow-sm shadow-blue-500/25">
+              <Activity size={17} strokeWidth={2.5} aria-hidden="true" />
+            </div>
+            <span className="text-[15px] font-bold text-slate-800 tracking-tight">DevPulse</span>
           </div>
-          <span className="text-[15px] font-bold text-slate-800 tracking-tight">DevPulse</span>
-        </div>
-        {/* Close button — only shown on mobile */}
-        {onClose && (
-          <button
-            type="button"
-            onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors duration-150 cursor-pointer md:hidden"
-            aria-label="Close sidebar"
-          >
-            <X size={18} />
-          </button>
-        )}
-      </div>
-
-      {/* Navigation */}
-      <nav className="flex-1 p-3 flex flex-col gap-0.5 overflow-y-auto">
-        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-3 mb-2 mt-1">
-          Navigation
-        </p>
-        {NAV_LINKS.map(({ to, label, icon: Icon }) => (
-          <NavLink
-            key={to}
-            to={to}
-            end={to === '/'}
-            onClick={onClose}
-            className={({ isActive }) =>
-              [
-                'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold transition-all duration-150',
-                isActive
-                  ? 'bg-blue-50 text-blue-600 shadow-sm shadow-blue-100'
-                  : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
-              ].join(' ')
-            }
-          >
-            {({ isActive }) => (
-              <>
-                {/* Active left-accent bar */}
-                <span
-                  className={`w-0.5 h-5 rounded-full shrink-0 transition-all duration-150 ${
-                    isActive ? 'bg-blue-500' : 'bg-transparent'
-                  }`}
-                  aria-hidden="true"
-                />
-                <Icon size={17} aria-hidden="true" />
-                {label}
-              </>
-            )}
-          </NavLink>
-        ))}
-      </nav>
-
-      {/* User card + Logout */}
-      <div className="p-3 border-t border-slate-100 shrink-0">
-        {user && (
-          <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors duration-150 group">
-            {/* Initials avatar */}
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-xs font-bold shrink-0 select-none shadow-sm">
-              {initials}
-            </div>
-
-            {/* User info */}
-            <div className="flex flex-col min-w-0 flex-1">
-              <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide leading-none mb-0.5">
-                Signed in
-              </span>
-              <span className="text-sm font-semibold text-slate-700 truncate leading-tight">
-                {user.username ?? user.email}
-              </span>
-            </div>
-
-            {/* Logout */}
+          {/* Close button — only shown on mobile */}
+          {onClose && (
             <button
               type="button"
-              onClick={logout}
-              title="Sign out"
-              aria-label="Sign out"
-              className="shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-slate-400 hover:text-rose-500 hover:bg-rose-50 transition-all duration-150 cursor-pointer opacity-60 group-hover:opacity-100"
+              onClick={onClose}
+              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors duration-150 cursor-pointer md:hidden"
+              aria-label="Close sidebar"
             >
-              <LogOut size={14} aria-hidden="true" />
+              <X size={18} />
             </button>
-          </div>
-        )}
+          )}
+        </div>
+
+        {/* Navigation */}
+        <nav className="flex-1 p-3 flex flex-col gap-0.5 overflow-y-auto">
+          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-3 mb-2 mt-1">
+            Navigation
+          </p>
+          {NAV_LINKS.map(({ to, label, icon: Icon }) => (
+            <NavLink
+              key={to}
+              to={to}
+              end={to === '/'}
+              onClick={onClose}
+              className={({ isActive }) =>
+                [
+                  'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold transition-all duration-150',
+                  isActive
+                    ? 'bg-blue-50 text-blue-600 shadow-sm shadow-blue-100'
+                    : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
+                ].join(' ')
+              }
+            >
+              {({ isActive }) => (
+                <>
+                  {/* Active left-accent bar */}
+                  <span
+                    className={`w-0.5 h-5 rounded-full shrink-0 transition-all duration-150 ${
+                      isActive ? 'bg-blue-500' : 'bg-transparent'
+                    }`}
+                    aria-hidden="true"
+                  />
+                  <Icon size={17} aria-hidden="true" />
+                  {label}
+                </>
+              )}
+            </NavLink>
+          ))}
+        </nav>
+
+        {/* User card + Theme Toggle + Logout */}
+        <div className="p-3 border-t border-slate-100 shrink-0">
+          {user && (
+            <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors duration-150 group">
+              {/* Initials avatar */}
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-xs font-bold shrink-0 select-none shadow-sm">
+                {initials}
+              </div>
+
+              {/* User info */}
+              <div className="flex flex-col min-w-0 flex-1">
+                <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide leading-none mb-0.5">
+                  Signed in
+                </span>
+                <span className="text-sm font-semibold text-slate-700 truncate leading-tight">
+                  {user.username ?? user.email}
+                </span>
+              </div>
+
+              {/* Theme Toggle */}
+              <button
+                type="button"
+                onClick={toggleTheme}
+                title={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
+                aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
+                className="shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-slate-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-slate-800 transition-all duration-150 cursor-pointer opacity-60 hover:opacity-100"
+              >
+                {theme === 'light' ? <Moon size={14} aria-hidden="true" /> : <Sun size={14} aria-hidden="true" />}
+              </button>
+
+              {/* Logout */}
+              <button
+                type="button"
+                onClick={logout}
+                title="Sign out"
+                aria-label="Sign out"
+                className="shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-slate-800 transition-all duration-150 cursor-pointer opacity-60 hover:opacity-100"
+              >
+                <LogOut size={14} aria-hidden="true" />
+              </button>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-  );
+    );
 }
 
 export default function SidebarLayout() {

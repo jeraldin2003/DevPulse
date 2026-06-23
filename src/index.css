@@ -47,6 +47,46 @@
   --dp-transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+:root[data-theme='dark'],
+.dark {
+  /* Brand */
+  --dp-brand-50: #172554;
+  --dp-brand-100: #1e3a8a;
+  --dp-brand-500: #3b82f6;
+  --dp-brand-600: #60a5fa;
+  --dp-brand-700: #93c5fd;
+
+  /* Surface */
+  --dp-surface-0: #1e293b;
+  --dp-surface-50: #0f172a;
+  --dp-surface-100: #334155;
+  --dp-surface-200: #475569;
+
+  /* Text */
+  --dp-text-primary: #f8fafc;
+  --dp-text-secondary: #cbd5e1;
+  --dp-text-muted: #64748b;
+}
+
+@theme {
+  --color-white: var(--dp-surface-0);
+  --color-slate-50: var(--dp-surface-50);
+  --color-slate-100: var(--dp-surface-100);
+  --color-slate-200: var(--dp-surface-200);
+  --color-slate-300: var(--dp-surface-200);
+  
+  --color-slate-800: var(--dp-text-primary);
+  --color-slate-700: var(--dp-text-secondary);
+  --color-slate-600: var(--dp-text-secondary);
+  --color-slate-500: var(--dp-text-muted);
+  --color-slate-400: var(--dp-text-muted);
+
+  --color-blue-50: var(--dp-brand-50);
+  --color-blue-100: var(--dp-brand-100);
+  --color-blue-600: var(--dp-brand-600);
+}
+
+
 /* ── Base Resets ─────────────────────────────────────────────── */
 *,
 *::before,
