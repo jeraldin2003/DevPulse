@@ -8,8 +8,9 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
-import { LayoutDashboard, HelpCircle, LogOut, Activity, Menu, X } from 'lucide-react';
+import { LayoutDashboard, HelpCircle, LogOut, Activity, Menu, X, Sun, Moon } from 'lucide-react';
 import { useAuth } from '~/features/auth/context/AuthContext.jsx';
+import { useTheme } from '~/features/auth/context/ThemeContext.jsx';
 
 const NAV_LINKS = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard, exact: true },
@@ -28,6 +29,8 @@ function getInitials(name = '') {
 
 function SidebarContent({ user, logout, onClose }) {
   const initials = getInitials(user?.username ?? user?.email ?? '?');
+
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <div className="flex flex-col h-full">
@@ -89,10 +92,10 @@ function SidebarContent({ user, logout, onClose }) {
         ))}
       </nav>
 
-      {/* User card + Logout */}
+      {/* User card + Theme Toggle + Logout */}
       <div className="p-3 border-t border-slate-100 shrink-0">
         {user && (
-          <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors duration-150 group">
+          <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors duration-150 group">
             {/* Initials avatar */}
             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-xs font-bold shrink-0 select-none shadow-sm">
               {initials}
@@ -108,13 +111,31 @@ function SidebarContent({ user, logout, onClose }) {
               </span>
             </div>
 
+            {/* Theme Toggle */}
+            <button
+              type="button"
+              onClick={toggleTheme}
+              title={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
+              aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
+              className="shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-slate-400 
+             hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-slate-800 
+             transition-all duration-150 cursor-pointer opacity-60 hover:opacity-100 
+             active:scale-90"
+            >
+              {theme === 'light' ? (
+                <Moon size={14} aria-hidden="true" />
+              ) : (
+                <Sun size={14} aria-hidden="true" />
+              )}
+            </button>
+
             {/* Logout */}
             <button
               type="button"
               onClick={logout}
               title="Sign out"
               aria-label="Sign out"
-              className="shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-slate-400 hover:text-rose-500 hover:bg-rose-50 transition-all duration-150 cursor-pointer opacity-60 group-hover:opacity-100"
+              className="shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-slate-800 transition-all duration-150 cursor-pointer opacity-60 hover:opacity-100"
             >
               <LogOut size={14} aria-hidden="true" />
             </button>

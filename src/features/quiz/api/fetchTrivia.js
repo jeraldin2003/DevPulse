@@ -1,4 +1,4 @@
-const TRIVIA_URL = 'https://opentdb.com/api.php?amount=10';
+const TRIVIA_URL = `${import.meta.env.VITE_API_URL}/dashboard/trivia`;
 
 export async function fetchTrivia() {
   try {

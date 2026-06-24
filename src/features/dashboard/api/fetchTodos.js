@@ -1,4 +1,4 @@
-const TODOS_URL = 'https://jsonplaceholder.typicode.com/todos';
+const TODOS_URL = `${import.meta.env.VITE_API_URL}/dashboard/todos`;
 
 export async function fetchTodos() {
   try {
