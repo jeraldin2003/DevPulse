@@ -14,7 +14,7 @@ import { OverviewPanel } from '~/features/dashboard/components';
 import { UsersPanel } from '~/features/dashboard/components';
 import { PostsPanel } from '~/features/dashboard/components';
 import { ProductivityPanel } from '~/features/dashboard/components';
-import { LeaderboardPanel as TriviaPanel } from '~/features/quiz/components';
+import { TriviaPanel } from '~/features/dashboard/components';
 
 const TABS = [
   { id: 'overview', label: 'Overview' },

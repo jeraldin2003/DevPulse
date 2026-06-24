@@ -20,14 +20,14 @@ export async function fetchOverviewData() {
   const errors = {};
   const data = {};
 
-  if (usersRes.status === 'fulfilled') data.users = userStats(usersRes.value);
+  if (usersRes.status === 'fulfilled') data.users = userStats(usersRes.value.data);
   else errors.users = usersRes.reason?.message ?? 'Unknown error';
 
-  if (postsRes.status === 'fulfilled') data.posts = postAnalysis(postsRes.value);
+  if (postsRes.status === 'fulfilled') data.posts = postAnalysis(postsRes.value.data);
   else errors.posts = postsRes.reason?.message ?? 'Unknown error';
 
   if (usersRes.status === 'fulfilled' && todosRes.status === 'fulfilled') {
-    data.productivity = productivityTracker(usersRes.value, todosRes.value);
+    data.productivity = productivityTracker(usersRes.value.data, todosRes.value.data);
   } else if (todosRes.status === 'rejected') {
     errors.productivity = todosRes.reason?.message ?? 'Unknown error';
   }
@@ -42,8 +42,7 @@ export async function fetchUsersData() {
   const start = Date.now();
   try {
     const raw = await fetchUsers();
-    // console.log(raw)
-    return { data: userStats(raw), errors: {}, loadTime: Date.now() - start };
+    return { data: userStats(raw.data), errors: {}, loadTime: Date.now() - start };
   } catch (e) {
     return {
       data: null,
@@ -57,7 +56,7 @@ export async function fetchPostsData() {
   const start = Date.now();
   try {
     const raw = await fetchPosts();
-    return { data: postAnalysis(raw), errors: {}, loadTime: Date.now() - start };
+    return { data: postAnalysis(raw.data), errors: {}, loadTime: Date.now() - start };
   } catch (e) {
     return {
       data: null,
@@ -70,11 +69,9 @@ export async function fetchPostsData() {
 export async function fetchProductivityData() {
   const start = Date.now();
   const [usersRes, todosRes] = await Promise.allSettled([fetchUsers(), fetchTodos()]);
-
   if (usersRes.status === 'fulfilled' && todosRes.status === 'fulfilled') {
-    // console.log(productivityTracker(usersRes.value, todosRes.value))
     return {
-      data: productivityTracker(usersRes.value, todosRes.value),
+      data: productivityTracker(usersRes.value.data, todosRes.value.data),
       errors: {},
       loadTime: Date.now() - start,
     };

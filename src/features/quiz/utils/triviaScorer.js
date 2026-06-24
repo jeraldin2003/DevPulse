@@ -1,5 +1,5 @@
-const getQuestionsList = ({ results }) =>
-  results.map(({ question, correct_answer: answer, difficulty, category }) => ({
+const getQuestionsList = ({ data }) =>
+  data.map(({ question, correct_answer: answer, difficulty, category }) => ({
     question,
     answer,
     difficulty,

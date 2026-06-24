@@ -1,4 +1,4 @@
-const USERS_URL = 'https://jsonplaceholder.typicode.com/users';
+const USERS_URL = `${import.meta.env.VITE_API_URL}/dashboard/users`;
 
 export async function fetchUsers() {
   try {

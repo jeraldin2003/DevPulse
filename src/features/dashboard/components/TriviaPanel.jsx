@@ -6,8 +6,8 @@
 
 import { useState, useMemo, useCallback } from 'react';
 import { Shuffle, Brain, ChevronDown, ChevronUp, BookOpen } from 'lucide-react';
-import { SectionTitle } from '~/components/ui';
-import { EmptyState } from '~/components/ui';
+import { SectionTitle, EmptyState } from '~/components/ui';
+import { useTheme } from '~/features/auth/context/ThemeContext.jsx';
 
 const DIFFICULTY_STYLES = {
   easy: {
@@ -46,7 +46,7 @@ function DifficultyBadge({ difficulty }) {
 
 function QuestionCard({ question, answer, category, difficulty, index }) {
   const [revealed, setRevealed] = useState(false);
-
+  const { theme } = useTheme();
   return (
     <div className="bg-white border border-slate-100 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
       {/* Card header */}
@@ -72,10 +72,19 @@ function QuestionCard({ question, answer, category, difficulty, index }) {
       <button
         type="button"
         onClick={() => setRevealed((r) => !r)}
-        className={`w-full flex items-center justify-between gap-2 px-5 py-3 text-xs font-semibold tracking-wide transition-colors duration-150 border-t border-slate-100 ${revealed
-            ? 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100/70'
-            : 'bg-slate-50 text-slate-500 hover:bg-slate-100'
-          }`}
+        className={`w-full flex items-center justify-between gap-2 px-5 py-3 text-xs font-semibold tracking-wide transition-colors duration-150 border-t ${
+          theme === 'dark'
+            ? `border-[--dp-surface-200] ${
+                revealed
+                  ? 'bg-emerald-950 text-emerald-400 hover:bg-emerald-900/60'
+                  : 'bg-[--dp-surface-50] text-[--dp-text-muted] hover:bg-[--dp-surface-100]'
+              }`
+            : `border-slate-100 ${
+                revealed
+                  ? 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100/70'
+                  : 'bg-slate-50 text-slate-500 hover:bg-slate-100'
+              }`
+        }`}
       >
         <span>{revealed ? 'Hide Answer' : 'Show Answer'}</span>
         {revealed ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
@@ -83,8 +92,20 @@ function QuestionCard({ question, answer, category, difficulty, index }) {
 
       {/* Answer */}
       {revealed && (
-        <div className="px-5 py-3 bg-emerald-50/60 border-t border-emerald-100 dp-fade-in">
-          <p className="text-sm font-semibold text-emerald-800">{answer}</p>
+        <div
+          className={`px-5 py-3 border-t dp-fade-in ${
+            theme === 'dark'
+              ? 'bg-emerald-950/60 border-emerald-900'
+              : 'bg-emerald-50/60 border-emerald-100'
+          }`}
+        >
+          <p
+            className={`text-sm font-semibold ${
+              theme === 'dark' ? 'text-emerald-300' : 'text-emerald-800'
+            }`}
+          >
+            {answer}
+          </p>
         </div>
       )}
     </div>
@@ -92,17 +113,7 @@ function QuestionCard({ question, answer, category, difficulty, index }) {
 }
 
 export default function TriviaPanel({ data }) {
-  console.log(data)
-  if (!data?.questions?.length) {
-    return (
-      <EmptyState
-        title="No trivia data available"
-        message="Questions could not be loaded. Try refreshing the dashboard."
-      />
-    );
-  }
-
-  const allQuestions = data.questions;
+  const allQuestions = data?.questions ?? [];
   const [seed, setSeed] = useState(0);
 
   // Re-shuffle when seed changes, maintaining stable order within a render
@@ -111,8 +122,16 @@ export default function TriviaPanel({ data }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [seed, allQuestions]
   );
-
   const shuffle = useCallback(() => setSeed((s) => s + 1), []);
+
+  if (!allQuestions.length) {
+    return (
+      <EmptyState
+        title="No trivia data available"
+        message="Questions could not be loaded. Try refreshing the dashboard."
+      />
+    );
+  }
 
   const counts = data.difficultyCounts ?? [];
 
@@ -146,9 +165,10 @@ export default function TriviaPanel({ data }) {
           {counts.map(({ difficulty, count }) => (
             <span
               key={difficulty}
-              className={`inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded-full border ${DIFFICULTY_STYLES[difficulty]?.badge ??
+              className={`inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded-full border ${
+                DIFFICULTY_STYLES[difficulty]?.badge ??
                 'bg-slate-50 text-slate-600 border-slate-200'
-                }`}
+              }`}
             >
               {count} {difficulty}
             </span>
