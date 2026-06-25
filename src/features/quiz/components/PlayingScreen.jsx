@@ -1,9 +1,18 @@
 import { TimerBar } from './TimerBar.jsx';
 
 const DIFFICULTY_COLORS = {
-  easy: { badge: 'bg-emerald-100 text-emerald-800', ring: 'ring-emerald-400' },
-  medium: { badge: 'bg-amber-100   text-amber-800', ring: 'ring-amber-400' },
-  hard: { badge: 'bg-rose-100    text-rose-800', ring: 'ring-rose-400' },
+  easy: {
+    badge: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-400',
+    ring: 'ring-emerald-400 dark:ring-emerald-500/50',
+  },
+  medium: {
+    badge: 'bg-amber-100 text-amber-800 dark:bg-amber-950/40 dark:text-amber-400',
+    ring: 'ring-amber-400 dark:ring-amber-500/50',
+  },
+  hard: {
+    badge: 'bg-rose-100 text-rose-800 dark:bg-rose-950/40 dark:text-rose-400',
+    ring: 'ring-rose-400 dark:ring-rose-500/50',
+  },
 };
 
 export function PlayingScreen({
@@ -62,15 +71,19 @@ export function PlayingScreen({
           const isSelected = selectedAnswer === option;
           const isAnswer = option === currentQuestion.correct_answer;
           let optionClass =
-            'border-slate-200 text-slate-700 hover:border-blue-400 hover:bg-blue-50 cursor-pointer';
+            'border-slate-200 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-950/20 cursor-pointer';
 
           if (selectedAnswer !== null) {
             // Feedback phase
             if (isAnswer)
-              optionClass = 'border-emerald-400 bg-emerald-50 text-emerald-800 cursor-default';
+              optionClass =
+                'border-emerald-400 dark:border-emerald-500/80 bg-emerald-50 dark:bg-emerald-950/20 text-emerald-800 dark:text-emerald-300 cursor-default';
             else if (isSelected)
-              optionClass = 'border-rose-400 bg-rose-50 text-rose-800 cursor-default';
-            else optionClass = 'border-slate-100 text-slate-400 cursor-default opacity-60';
+              optionClass =
+                'border-rose-400 dark:border-rose-500/80 bg-rose-50 dark:bg-rose-950/20 text-rose-800 dark:text-rose-300 cursor-default';
+            else
+              optionClass =
+                'border-slate-100 dark:border-slate-800/40 text-slate-400 dark:text-slate-500 cursor-default opacity-60';
           }
 
           return (

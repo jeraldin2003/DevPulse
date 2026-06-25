@@ -32,7 +32,7 @@ export default function PostsPanel({ data }) {
       <SectionTitle>Post Statistics</SectionTitle>
 
       <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4 max-w-[320px]">
-        <StatCard icon={FileText} label="Total Posts" value={data.totalPosts} color="#8b5cf6" />
+        <StatCard icon={FileText} label="Total Posts" value={data.totalPosts} colorKey="violet" />
       </div>
 
       <div className="mt-6">
@@ -41,13 +41,13 @@ export default function PostsPanel({ data }) {
         <div className="p-4 bg-white border border-slate-200 rounded-lg shadow-sm">
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--dp-surface-200)" />
               <XAxis
                 dataKey="userId"
                 tickFormatter={(userId) => `User ${userId}`}
-                tick={{ fontSize: 12 }}
+                tick={{ fill: 'var(--dp-text-muted)', fontSize: 12 }}
               />
-              <YAxis tick={{ fontSize: 12 }} allowDecimals={false} />
+              <YAxis tick={{ fill: 'var(--dp-text-muted)', fontSize: 12 }} allowDecimals={false} />
               <Tooltip content={<PostsTooltip />} />
               <Bar dataKey="postCount" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
             </BarChart>

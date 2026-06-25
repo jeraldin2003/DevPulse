@@ -16,7 +16,7 @@ function CountriesTooltip({ active, payload }) {
   return (
     <div className="p-2 bg-white border border-slate-200 rounded-md text-xs shadow-sm">
       <p className="font-semibold text-slate-800 mb-0.5">{entry.name}</p>
-      <p className="text-slate-650">{entry.population.toLocaleString()} people</p>
+      <p className="text-slate-500">{entry.population.toLocaleString()} people</p>
     </div>
   );
 }
@@ -44,7 +44,7 @@ export default function CountriesPanel({ data }) {
           icon={Globe}
           label="Total Countries"
           value={data.totalCountries}
-          color="#06b6d4"
+          colorKey="cyan"
         />
       </div>
 
@@ -54,16 +54,19 @@ export default function CountriesPanel({ data }) {
         <div className="p-4 bg-white border border-slate-200 rounded-lg shadow-sm mb-6">
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--dp-surface-200)" />
               <XAxis
                 dataKey="name"
-                tick={{ fontSize: 11 }}
+                tick={{ fill: 'var(--dp-text-muted)', fontSize: 11 }}
                 interval={0}
                 angle={-20}
                 textAnchor="end"
                 height={70}
               />
-              <YAxis tick={{ fontSize: 12 }} tickFormatter={(v) => `${(v / 1e6).toFixed(0)}M`} />
+              <YAxis
+                tick={{ fill: 'var(--dp-text-muted)', fontSize: 12 }}
+                tickFormatter={(v) => `${(v / 1e6).toFixed(0)}M`}
+              />
               <Tooltip content={<CountriesTooltip />} />
               <Bar dataKey="population" fill="#06b6d4" radius={[4, 4, 0, 0]} />
             </BarChart>
@@ -80,7 +83,7 @@ export default function CountriesPanel({ data }) {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search countries..."
-          className="px-3 py-1.5 border border-slate-200 rounded-lg text-sm min-w-[200px] outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-white"
+          className="px-3 py-1.5 border border-slate-200 rounded-lg text-sm min-w-[200px] outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 bg-white text-slate-800"
         />
       </div>
 

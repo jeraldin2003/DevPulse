@@ -9,31 +9,40 @@ import { Shuffle, Brain, ChevronDown, ChevronUp, BookOpen } from 'lucide-react';
 import { SectionTitle, EmptyState } from '~/components/ui';
 import { useTheme } from '~/features/auth/context/ThemeContext.jsx';
 
-const DIFFICULTY_STYLES = {
-  easy: {
-    badge: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-    dot: 'bg-emerald-500',
-  },
-  medium: {
-    badge: 'bg-amber-50 text-amber-700 border-amber-200',
-    dot: 'bg-amber-500',
-  },
-  hard: {
-    badge: 'bg-rose-50 text-rose-700 border-rose-200',
-    dot: 'bg-rose-500',
-  },
-};
-
 function pickRandom(arr, count) {
   const shuffled = [...arr].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, Math.min(count, shuffled.length));
 }
 
 function DifficultyBadge({ difficulty }) {
-  const styles = DIFFICULTY_STYLES[difficulty] ?? {
-    badge: 'bg-slate-50 text-slate-600 border-slate-200',
-    dot: 'bg-slate-400',
+  const { theme } = useTheme();
+
+  const getStyles = (level, isLight) => {
+    switch (level) {
+      case 'easy':
+        return isLight
+          ? { badge: 'bg-emerald-50 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500' }
+          : {
+              badge: 'bg-emerald-950/30 text-emerald-400 border-emerald-900/30',
+              dot: 'bg-emerald-400',
+            };
+      case 'medium':
+        return isLight
+          ? { badge: 'bg-amber-50 text-amber-700 border-amber-200', dot: 'bg-amber-500' }
+          : { badge: 'bg-amber-950/30 text-amber-400 border-amber-900/30', dot: 'bg-amber-400' };
+      case 'hard':
+        return isLight
+          ? { badge: 'bg-rose-50 text-rose-700 border-rose-200', dot: 'bg-rose-500' }
+          : { badge: 'bg-rose-950/30 text-rose-400 border-rose-900/30', dot: 'bg-rose-400' };
+      default:
+        return isLight
+          ? { badge: 'bg-slate-50 text-slate-600 border-slate-200', dot: 'bg-slate-400' }
+          : { badge: 'bg-slate-800/40 text-slate-300 border-slate-700/60', dot: 'bg-slate-400' };
+    }
   };
+
+  const styles = getStyles(difficulty, theme === 'light');
+
   return (
     <span
       className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-full border ${styles.badge}`}
@@ -73,17 +82,13 @@ function QuestionCard({ question, answer, category, difficulty, index }) {
         type="button"
         onClick={() => setRevealed((r) => !r)}
         className={`w-full flex items-center justify-between gap-2 px-5 py-3 text-xs font-semibold tracking-wide transition-colors duration-150 border-t ${
-          theme === 'dark'
-            ? `border-[--dp-surface-200] ${
-                revealed
-                  ? 'bg-emerald-950 text-emerald-400 hover:bg-emerald-900/60'
-                  : 'bg-[--dp-surface-50] text-[--dp-text-muted] hover:bg-[--dp-surface-100]'
-              }`
-            : `border-slate-100 ${
-                revealed
-                  ? 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100/70'
-                  : 'bg-slate-50 text-slate-500 hover:bg-slate-100'
-              }`
+          theme === 'light'
+            ? revealed
+              ? 'border-slate-100 bg-emerald-50 text-emerald-700 hover:bg-emerald-100/70'
+              : 'border-slate-100 bg-slate-50 hover:bg-slate-100 text-slate-500 hover:text-slate-800'
+            : revealed
+              ? 'border-slate-200/40 bg-emerald-950/40 text-emerald-400 hover:bg-emerald-950/60'
+              : 'border-slate-200/40 bg-slate-800/40 hover:bg-slate-800/70 text-slate-400 hover:text-slate-200'
         }`}
       >
         <span>{revealed ? 'Hide Answer' : 'Show Answer'}</span>
@@ -92,20 +97,8 @@ function QuestionCard({ question, answer, category, difficulty, index }) {
 
       {/* Answer */}
       {revealed && (
-        <div
-          className={`px-5 py-3 border-t dp-fade-in ${
-            theme === 'dark'
-              ? 'bg-emerald-950/60 border-emerald-900'
-              : 'bg-emerald-50/60 border-emerald-100'
-          }`}
-        >
-          <p
-            className={`text-sm font-semibold ${
-              theme === 'dark' ? 'text-emerald-300' : 'text-emerald-800'
-            }`}
-          >
-            {answer}
-          </p>
+        <div className="px-5 py-3 border-t border-emerald-100 dark:border-emerald-900/30 bg-emerald-50/60 dark:bg-emerald-950/20 dp-fade-in">
+          <p className="text-sm font-semibold text-emerald-800 dark:text-emerald-300">{answer}</p>
         </div>
       )}
     </div>
@@ -115,6 +108,7 @@ function QuestionCard({ question, answer, category, difficulty, index }) {
 export default function TriviaPanel({ data }) {
   const allQuestions = data?.questions ?? [];
   const [seed, setSeed] = useState(0);
+  const { theme } = useTheme();
 
   // Re-shuffle when seed changes, maintaining stable order within a render
   const displayed = useMemo(
@@ -159,15 +153,28 @@ export default function TriviaPanel({ data }) {
       {counts.length > 0 && (
         <div className="flex flex-wrap gap-2 mb-6">
           <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500">
-            <Brain size={13} className="text-slate-400" />
+            <Brain size={13} className={theme === 'light' ? 'text-slate-500' : 'text-slate-400'} />
             Difficulty breakdown:
           </span>
           {counts.map(({ difficulty, count }) => (
             <span
               key={difficulty}
               className={`inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded-full border ${
-                DIFFICULTY_STYLES[difficulty]?.badge ??
-                'bg-slate-50 text-slate-600 border-slate-200'
+                theme === 'light'
+                  ? difficulty === 'easy'
+                    ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                    : difficulty === 'medium'
+                      ? 'bg-amber-50 text-amber-700 border-amber-200'
+                      : difficulty === 'hard'
+                        ? 'bg-rose-50 text-rose-700 border-rose-200'
+                        : 'bg-slate-50 text-slate-600 border-slate-200'
+                  : difficulty === 'easy'
+                    ? 'bg-emerald-950/30 text-emerald-400 border-emerald-900/30'
+                    : difficulty === 'medium'
+                      ? 'bg-amber-950/30 text-amber-400 border-amber-900/30'
+                      : difficulty === 'hard'
+                        ? 'bg-rose-950/30 text-rose-400 border-rose-900/30'
+                        : 'bg-slate-800/40 text-slate-300 border-slate-700/60'
               }`}
             >
               {count} {difficulty}

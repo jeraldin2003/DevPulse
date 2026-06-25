@@ -37,7 +37,7 @@ export default function QuizPage() {
     if (error) {
       return (
         <div
-          className="p-4 bg-rose-50 border border-rose-200 rounded-xl text-rose-800 text-sm dp-fade-in"
+          className="p-4 bg-rose-50 border border-rose-200 dark:bg-rose-950/20 dark:border-rose-900/30 dark:text-rose-450 rounded-xl text-rose-800 text-sm dp-fade-in"
           role="alert"
         >
           <strong className="font-semibold block mb-1">Failed to load leaderboard</strong>
