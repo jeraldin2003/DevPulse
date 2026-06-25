@@ -15,6 +15,7 @@ import { useTheme } from '~/features/auth/context/ThemeContext.jsx';
 const NAV_LINKS = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard, exact: true },
   { to: '/quiz', label: 'Quiz', icon: HelpCircle, exact: false },
+  { to: '/contact', label: 'Contact', icon: Activity, exact: false },
 ];
 
 /** Returns up to 2 uppercase initials from a display name */
@@ -29,25 +30,25 @@ function getInitials(name = '') {
 
 function SidebarContent({ user, logout, onClose }) {
   const initials = getInitials(user?.username ?? user?.email ?? '?');
-
   const { theme, toggleTheme } = useTheme();
 
   return (
     <div className="flex flex-col h-full">
       {/* Brand */}
-      <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 shrink-0">
+      <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100 dark:border-slate-700 shrink-0">
         <div className="flex items-center gap-2.5">
           <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-600 text-white shadow-sm shadow-blue-500/25">
             <Activity size={17} strokeWidth={2.5} aria-hidden="true" />
           </div>
-          <span className="text-[15px] font-bold text-slate-800 tracking-tight">DevPulse</span>
+          <span className="text-[15px] font-bold text-slate-800 dark:text-slate-100 tracking-tight">
+            DevPulse
+          </span>
         </div>
-        {/* Close button — only shown on mobile */}
         {onClose && (
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors duration-150 cursor-pointer md:hidden"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-150 cursor-pointer md:hidden"
             aria-label="Close sidebar"
           >
             <X size={18} />
@@ -70,18 +71,15 @@ function SidebarContent({ user, logout, onClose }) {
               [
                 'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold transition-all duration-150',
                 isActive
-                  ? 'bg-blue-50 text-blue-600 shadow-sm shadow-blue-100'
-                  : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900',
+                  ? 'bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 shadow-sm shadow-blue-100'
+                  : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100',
               ].join(' ')
             }
           >
             {({ isActive }) => (
               <>
-                {/* Active left-accent bar */}
                 <span
-                  className={`w-0.5 h-5 rounded-full shrink-0 transition-all duration-150 ${
-                    isActive ? 'bg-blue-500' : 'bg-transparent'
-                  }`}
+                  className={`w-0.5 h-5 rounded-full shrink-0 transition-all duration-150 ${isActive ? 'bg-blue-500' : 'bg-transparent'}`}
                   aria-hidden="true"
                 />
                 <Icon size={17} aria-hidden="true" />
@@ -93,34 +91,26 @@ function SidebarContent({ user, logout, onClose }) {
       </nav>
 
       {/* User card + Theme Toggle + Logout */}
-      <div className="p-3 border-t border-slate-100 shrink-0">
+      <div className="p-3 border-t border-slate-100 dark:border-slate-700 shrink-0">
         {user && (
-          <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors duration-150 group">
-            {/* Initials avatar */}
+          <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-150 group">
             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-xs font-bold shrink-0 select-none shadow-sm">
               {initials}
             </div>
-
-            {/* User info */}
             <div className="flex flex-col min-w-0 flex-1">
               <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide leading-none mb-0.5">
                 Signed in
               </span>
-              <span className="text-sm font-semibold text-slate-700 truncate leading-tight">
+              <span className="text-sm font-semibold text-slate-700 dark:text-slate-200 truncate leading-tight">
                 {user.username ?? user.email}
               </span>
             </div>
-
-            {/* Theme Toggle */}
             <button
               type="button"
               onClick={toggleTheme}
               title={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
               aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
-              className="shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-slate-400 
-             hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-slate-800 
-             transition-all duration-150 cursor-pointer opacity-60 hover:opacity-100 
-             active:scale-90"
+              className="shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-slate-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-slate-600 transition-all duration-150 cursor-pointer opacity-60 hover:opacity-100 active:scale-90"
             >
               {theme === 'light' ? (
                 <Moon size={14} aria-hidden="true" />
@@ -128,14 +118,12 @@ function SidebarContent({ user, logout, onClose }) {
                 <Sun size={14} aria-hidden="true" />
               )}
             </button>
-
-            {/* Logout */}
             <button
               type="button"
               onClick={logout}
               title="Sign out"
               aria-label="Sign out"
-              className="shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-slate-800 transition-all duration-150 cursor-pointer opacity-60 hover:opacity-100"
+              className="shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-slate-600 transition-all duration-150 cursor-pointer opacity-60 hover:opacity-100"
             >
               <LogOut size={14} aria-hidden="true" />
             </button>
