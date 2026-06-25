@@ -4,7 +4,7 @@ import { LoginPage } from '~/features/auth/pages/LoginPage.jsx';
 import DashboardPage from '~/features/dashboard/pages/DashboardPage.jsx';
 import QuizPage from '~/features/quiz/pages/QuizPage.jsx';
 import SidebarLayout from '~/components/layout/SidebarLayout.jsx';
-
+import ContactPage from './features/contactform/ContactPage';
 function ProtectedRoute({ children }) {
   const { isAuthenticated } = useAuth();
   return isAuthenticated ? children : <Navigate to="/login" replace />;
@@ -26,7 +26,6 @@ export default function App() {
       </div>
     );
   }
-
   return (
     <BrowserRouter>
       <Routes>
@@ -48,6 +47,7 @@ export default function App() {
           <Route path="/" element={<DashboardPage />} />
           <Route path="/quiz" element={<QuizPage />} />
         </Route>
+        <Route path="/contact" element={<ContactPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
