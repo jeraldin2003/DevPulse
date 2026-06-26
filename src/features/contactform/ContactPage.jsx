@@ -159,7 +159,7 @@ export default function ContactPage() {
                       {...rest}
                     />
                     {hasErr && (
-                      <span role="alert" className="text-xs text-rose-600">
+                      <span id={`${id}-error`} role="alert" className="text-xs text-rose-600">
                         {errors[id]}
                       </span>
                     )}

@@ -81,7 +81,7 @@ const TREND_STYLES = {
 
 const TREND_ARROWS = { up: '↑', down: '↓', neutral: '→' };
 
-export default function StatCard({ icon: Icon, label, value, sub, colorKey, trend }) {
+export default function StatCard({ icon: Icon, label, value, sub, colorKey }) {
   const { theme } = useTheme();
   const colors = COLOR_MAP[colorKey] ?? FALLBACK_COLOR;
 
@@ -107,15 +107,6 @@ export default function StatCard({ icon: Icon, label, value, sub, colorKey, tren
         {sub && <p className="text-[11px] text-slate-400 mt-0.5">{sub}</p>}
       </div>
 
-      {/* Trend badge */}
-      {trend && (
-        <span
-          className={`shrink-0 inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[11px] font-semibold ${theme === 'light' ? (TREND_STYLES.light[trend.direction] ?? TREND_STYLES.light.neutral) : (TREND_STYLES.dark[trend.direction] ?? TREND_STYLES.dark.neutral)}`}
-          aria-label={`Trend: ${trend.direction} ${trend.value}%`}
-        >
-          {TREND_ARROWS[trend.direction] ?? '→'} {trend.value}%
-        </span>
-      )}
     </div>
   );
 }
