@@ -15,7 +15,7 @@ export default function LeaderboardPanel({ top10 = [], currentUser }) {
       <div>
         <div className="flex justify-between items-center mb-4">
           <SectionTitle>Global Leaderboard</SectionTitle>
-          <span className="px-2.5 py-1 bg-blue-50 text-blue-700 text-[11px] font-bold uppercase tracking-wider rounded-lg border border-blue-100">
+          <span className="px-2.5 py-1 bg-blue-50 text-blue-700 text-[11px] font-bold uppercase tracking-wider rounded-lg border border-blue-100 dark:text-blue-400 dark:border-blue-900/30">
             Top 10 players
           </span>
         </div>
@@ -89,7 +89,7 @@ export default function LeaderboardPanel({ top10 = [], currentUser }) {
                               {player.username}
                             </span>
                             {isCurrentUser && (
-                              <span className="text-[9px] bg-blue-100 text-blue-700 font-bold px-1.5 py-0.5 rounded uppercase tracking-widest ml-1">
+                              <span className="text-[9px] bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-400 font-bold px-1.5 py-0.5 rounded uppercase tracking-widest ml-1">
                                 You
                               </span>
                             )}
@@ -113,11 +113,11 @@ export default function LeaderboardPanel({ top10 = [], currentUser }) {
 
       {/* Current User Stats (if not in top 10) */}
       {!isUserInTop10 && currentUser && (
-        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100/60 rounded-xl p-5 shadow-sm relative overflow-hidden">
+        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 border border-blue-100/60 dark:border-blue-900/30 rounded-xl p-5 shadow-sm relative overflow-hidden">
           {/* Decorative background circle */}
           <div className="absolute -right-10 -top-10 w-40 h-40 bg-blue-600/5 rounded-full blur-2xl pointer-events-none" />
 
-          <h4 className="text-xs font-bold text-blue-800 uppercase tracking-widest mb-4 flex items-center gap-2">
+          <h4 className="text-xs font-bold text-blue-800 dark:text-blue-400 uppercase tracking-widest mb-4 flex items-center gap-2">
             <User size={15} />
             Your Current Standing
           </h4>

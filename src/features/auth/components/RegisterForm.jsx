@@ -15,8 +15,8 @@ export function RegisterForm({
     return (
       <form onSubmit={onVerifyOtp} className="flex flex-col gap-4 dp-fade-in">
         <div className="text-center mb-2">
-          <p className="text-sm text-slate-600 mb-1">We sent a code to</p>
-          <p className="font-semibold text-slate-900">{formData.regEmail}</p>
+          <p className="text-sm text-slate-650 mb-1">We sent a code to</p>
+          <p className="font-semibold text-slate-850">{formData.regEmail}</p>
         </div>
         <InputField
           icon={KeyRound}
@@ -70,7 +70,7 @@ export function RegisterForm({
       <button
         type="submit"
         disabled={loading}
-        className="flex items-center justify-center gap-2 w-full py-3 mt-2 bg-slate-900 hover:bg-slate-800 text-white font-semibold rounded-xl transition-all shadow-sm disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
+        className="flex items-center justify-center gap-2 w-full py-3 mt-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all shadow-sm shadow-blue-500/25 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
       >
         {loading ? <LoadingSpinner /> : 'Continue'}
       </button>
@@ -80,7 +80,7 @@ export function RegisterForm({
         <button
           type="button"
           onClick={() => onSwitch('login')}
-          className="font-semibold text-slate-900 hover:underline transition-colors focus:outline-none"
+          className="font-semibold text-blue-600 hover:text-blue-700 hover:underline transition-colors focus:outline-none"
         >
           Sign In
         </button>

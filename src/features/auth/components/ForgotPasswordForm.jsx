@@ -15,8 +15,8 @@ export function ForgotPasswordForm({
     return (
       <form onSubmit={onResetPassword} className="flex flex-col gap-4 dp-fade-in">
         <div className="text-center mb-2">
-          <p className="text-sm text-slate-600 mb-1">Reset code sent to</p>
-          <p className="font-semibold text-slate-900">{formData.forgotEmail}</p>
+          <p className="text-sm text-slate-650 mb-1">Reset code sent to</p>
+          <p className="font-semibold text-slate-850">{formData.forgotEmail}</p>
         </div>
         <InputField
           icon={KeyRound}

@@ -86,11 +86,15 @@ export default function ProductivityPanel({ data }) {
         <div className="h-[400px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData} layout="vertical" margin={{ left: 40, right: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" horizontal={false} />
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="var(--dp-surface-200)"
+                horizontal={false}
+              />
               <XAxis
                 type="number"
                 domain={[0, 100]}
-                tick={{ fontSize: 12, fill: '#64748b' }}
+                tick={{ fontSize: 12, fill: 'var(--dp-text-muted)' }}
                 axisLine={false}
                 tickLine={false}
               />
@@ -98,16 +102,24 @@ export default function ProductivityPanel({ data }) {
                 type="category"
                 dataKey="userName"
                 width={100}
-                tick={{ fontSize: 12, fill: '#475569' }}
+                tick={{ fontSize: 12, fill: 'var(--dp-text-secondary)' }}
                 axisLine={false}
                 tickLine={false}
               />
-              <Tooltip cursor={{ fill: '#f8fafc' }} content={<ProductivityTooltip />} />
+              <Tooltip
+                cursor={{ fill: 'var(--dp-surface-100)' }}
+                content={<ProductivityTooltip />}
+              />
               <ReferenceLine
                 x={70}
-                stroke="#94a3b8"
+                stroke="var(--dp-text-muted)"
                 strokeDasharray="3 3"
-                label={{ position: 'top', value: 'Goal: 70%', fill: '#64748b', fontSize: 11 }}
+                label={{
+                  position: 'top',
+                  value: 'Goal: 70%',
+                  fill: 'var(--dp-text-secondary)',
+                  fontSize: 11,
+                }}
               />
               <Bar dataKey="completionPercentage" radius={[0, 4, 4, 0]} barSize={20}>
                 {chartData.map((entry) => (

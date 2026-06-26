@@ -10,6 +10,7 @@ import { StatCard } from '~/components/ui';
 import { SectionTitle } from '~/components/ui';
 import { Badge } from '~/components/ui';
 import { EmptyState } from '~/components/ui';
+import { useTheme } from '~/features/auth/context/ThemeContext.jsx';
 
 /** Returns up to 2 uppercase initials from a display name */
 function getInitials(name = '') {
@@ -22,6 +23,8 @@ function getInitials(name = '') {
 }
 
 export default function UsersPanel({ data }) {
+  const { theme } = useTheme();
+
   if (!data) return <EmptyState title="No User Data" message="Unable to load user information." />;
 
   const uniqueCompanies = [...new Set(data.companies.map((c) => c.company).filter(Boolean))];
@@ -54,7 +57,11 @@ export default function UsersPanel({ data }) {
           {uniqueCompanies.map((company) => (
             <span
               key={company}
-              className="px-2.5 py-1 bg-violet-50 text-violet-700 border border-violet-100 rounded-lg text-xs font-medium"
+              className={`px-2.5 py-1 rounded-lg text-xs font-medium border ${
+                theme === 'light'
+                  ? 'bg-violet-50 text-violet-700 border-violet-100'
+                  : 'bg-violet-950/40 text-violet-400 border-violet-900/30'
+              }`}
             >
               {company}
             </span>
@@ -82,7 +89,7 @@ export default function UsersPanel({ data }) {
                 className="bg-white border border-slate-100 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow duration-200"
               >
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-11 h-11 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm border border-blue-100 shrink-0">
+                  <div className="w-11 h-11 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-sm border border-blue-100 dark:border-blue-900/30 shrink-0">
                     {getInitials(user.name)}
                   </div>
                   <div className="min-w-0">

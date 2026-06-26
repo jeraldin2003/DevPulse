@@ -40,7 +40,10 @@ function SidebarContent({ user, logout, onClose }) {
           <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-600 text-white shadow-sm shadow-blue-500/25">
             <Activity size={17} strokeWidth={2.5} aria-hidden="true" />
           </div>
-          <span className="text-[15px] font-bold text-slate-800 dark:text-slate-100 tracking-tight">
+          <span
+            className="text-[15px] font-bold tracking-tight"
+            style={{ color: 'var(--sidebar-text-brand)' }}
+          >
             DevPulse
           </span>
         </div>
@@ -58,7 +61,10 @@ function SidebarContent({ user, logout, onClose }) {
 
       {/* Navigation */}
       <nav className="flex-1 p-3 flex flex-col gap-0.5 overflow-y-auto">
-        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-3 mb-2 mt-1">
+        <p
+          className="text-[10px] font-bold uppercase tracking-widest px-3 mb-2 mt-1"
+          style={{ color: 'var(--sidebar-text-section)' }}
+        >
           Navigation
         </p>
         {NAV_LINKS.map(({ to, label, icon: Icon }) => (
@@ -71,8 +77,12 @@ function SidebarContent({ user, logout, onClose }) {
               [
                 'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold transition-all duration-150',
                 isActive
-                  ? 'bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 shadow-sm shadow-blue-100'
-                  : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100',
+                  ? theme === 'light'
+                    ? 'bg-blue-100 text-blue-800 shadow-sm shadow-blue-200'
+                    : 'bg-blue-900/40 text-blue-400 shadow-sm shadow-blue-900/20'
+                  : theme === 'light'
+                    ? 'sidebar-nav-inactive hover:bg-slate-100 text-slate-600 hover:text-slate-900'
+                    : 'sidebar-nav-inactive hover:bg-slate-800 text-slate-400 hover:text-slate-200',
               ].join(' ')
             }
           >
@@ -93,15 +103,21 @@ function SidebarContent({ user, logout, onClose }) {
       {/* User card + Theme Toggle + Logout */}
       <div className="p-3 border-t border-slate-100 dark:border-slate-700 shrink-0">
         {user && (
-          <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors duration-150 group">
+          <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 transition-colors duration-150 group">
             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-xs font-bold shrink-0 select-none shadow-sm">
               {initials}
             </div>
             <div className="flex flex-col min-w-0 flex-1">
-              <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide leading-none mb-0.5">
+              <span
+                className="text-[10px] font-semibold uppercase tracking-wide leading-none mb-0.5"
+                style={{ color: 'var(--sidebar-text-section)' }}
+              >
                 Signed in
               </span>
-              <span className="text-sm font-semibold text-slate-700 dark:text-slate-200 truncate leading-tight">
+              <span
+                className="text-sm font-semibold truncate leading-tight"
+                style={{ color: 'var(--sidebar-text-username)' }}
+              >
                 {user.username ?? user.email}
               </span>
             </div>
@@ -110,7 +126,7 @@ function SidebarContent({ user, logout, onClose }) {
               onClick={toggleTheme}
               title={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
               aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
-              className="shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-slate-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-slate-600 transition-all duration-150 cursor-pointer opacity-60 hover:opacity-100 active:scale-90"
+              className="shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-slate-400 hover:text-blue-500 hover:bg-slate-100 transition-all duration-150 cursor-pointer opacity-60 hover:opacity-100 active:scale-90"
             >
               {theme === 'light' ? (
                 <Moon size={14} aria-hidden="true" />
@@ -123,7 +139,7 @@ function SidebarContent({ user, logout, onClose }) {
               onClick={logout}
               title="Sign out"
               aria-label="Sign out"
-              className="shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-slate-600 transition-all duration-150 cursor-pointer opacity-60 hover:opacity-100"
+              className="shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-slate-400 hover:text-rose-500 hover:bg-slate-100 transition-all duration-150 cursor-pointer opacity-60 hover:opacity-100"
             >
               <LogOut size={14} aria-hidden="true" />
             </button>

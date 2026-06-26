@@ -95,7 +95,7 @@ export default function ContactPage() {
         <button
           type="button"
           onClick={toggleTheme}
-          className="absolute top-4 right-4 z-50 p-2 rounded-xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-150 cursor-pointer shadow-sm"
+          className="absolute top-4 right-4 z-50 p-2 rounded-xl bg-white/80 backdrop-blur-md border border-slate-200/80 text-slate-600 hover:bg-slate-100 transition-all duration-150 cursor-pointer shadow-sm"
           title={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
           aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
         >
@@ -113,7 +113,7 @@ export default function ContactPage() {
         </div>
 
         {/* Card */}
-        <div className="bg-white/80 backdrop-blur-xl border border-white rounded-3xl p-8 shadow-xl">
+        <div className="bg-white/80 backdrop-blur-xl border border-slate-200/50 dark:border-slate-800/40 rounded-3xl p-8 shadow-xl dark:shadow-black/20">
           {doneEmail ? (
             <div className="flex flex-col items-center text-center gap-4 py-6">
               <CheckCircle size={48} className="text-emerald-500" strokeWidth={1.5} />
@@ -132,7 +132,7 @@ export default function ContactPage() {
               {serverError && (
                 <div
                   role="alert"
-                  className="flex gap-2 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-sm"
+                  className="flex gap-2 p-3 rounded-xl bg-rose-50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/30 text-rose-700 dark:text-rose-400 text-sm"
                 >
                   <AlertCircle size={16} className="shrink-0 mt-0.5" /> {serverError}
                 </div>

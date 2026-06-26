@@ -148,7 +148,7 @@ export function LoginPage() {
       <button
         type="button"
         onClick={toggleTheme}
-        className="absolute top-4 right-4 z-50 p-2 rounded-xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-all duration-150 cursor-pointer shadow-sm"
+        className="absolute top-4 right-4 z-50 p-2 rounded-xl bg-white/80 backdrop-blur-md border border-slate-200/80 text-slate-600 hover:bg-slate-100 transition-all duration-150 cursor-pointer shadow-sm"
         title={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
         aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
       >
@@ -157,8 +157,8 @@ export function LoginPage() {
 
       {/* Abstract Background Elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-10%] right-[-5%] w-[50vw] h-[50vw] rounded-full bg-blue-100/40 blur-3xl" />
-        <div className="absolute bottom-[-10%] left-[-10%] w-[40vw] h-[40vw] rounded-full bg-indigo-100/40 blur-3xl" />
+        <div className="absolute top-[-10%] right-[-5%] w-[50vw] h-[50vw] rounded-full bg-blue-100/40 dark:bg-blue-950/20 blur-3xl" />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[40vw] h-[40vw] rounded-full bg-indigo-100/40 dark:bg-indigo-950/20 blur-3xl" />
       </div>
 
       <div className="flex flex-col justify-center flex-1 w-full max-w-md mx-auto px-6 relative z-10">
@@ -186,10 +186,10 @@ export function LoginPage() {
         </div>
 
         {/* Card */}
-        <div className="bg-white/80 backdrop-blur-xl border border-white rounded-3xl p-8 shadow-xl shadow-slate-200/50">
+        <div className="bg-white/80 backdrop-blur-xl border border-slate-200/50 dark:border-slate-800/40 rounded-3xl p-8 shadow-xl dark:shadow-black/20">
           <ErrorBanner message={error} />
           {successMsg && !error && (
-            <div className="p-3 mb-5 bg-emerald-50 text-emerald-700 text-sm font-medium rounded-xl text-center dp-fade-in border border-emerald-100">
+            <div className="p-3 mb-5 bg-emerald-50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-400 text-sm font-medium rounded-xl text-center dp-fade-in border border-emerald-100 dark:border-emerald-900/30">
               {successMsg}
             </div>
           )}
